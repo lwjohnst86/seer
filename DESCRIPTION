@@ -1,0 +1,19 @@
+Package: seer
+Type: Package
+Title: Visualize Your Data and Results
+Version: 0.1.1.9000
+Date: 2015-10-13
+Authors@R: person("Luke", "Johnston", email = "lwjohnst@gmail.com",
+    role = c("aut", "cre"))
+Description: Become a seer of data to gain insights into the structure of
+    your results. Use a common syntax to quickly create commonly used plots
+    from analyses. Uses the output from the mason package.
+License: MIT
+LazyData: TRUE
+Imports:
+    ggplot2,
+    dplyr,
+    mason,
+    ggthemes,
+    magrittr
+RoxygenNote: 5.0.0
