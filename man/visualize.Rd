@@ -2,13 +2,26 @@
 % Please edit documentation in R/visualize.R
 \name{visualize}
 \alias{visualize}
-\alias{visualize.main_reg}
+\alias{visualize.boxes_dots}
+\alias{visualize.heatmap}
+\alias{visualize.interaction}
+\alias{visualize.main_effect}
 \title{Visualize the results.}
 \usage{
 visualize(data, ...)
 
-\method{visualize}{main_reg}(data, groups = "~Yterms", ylab = "Exposures",
-  xlab = "Beta estimates", center.line = c("0", "1", NULL))
+\method{visualize}{main_effect}(data, groups = "~Yterms",
+  ylab = "Exposures", xlab = "Beta estimates", center.line = c("0", "1",
+  NULL))
+
+\method{visualize}{boxes_dots}(data, box_groups = NULL, groups = NULL,
+  dots = TRUE, ylab = "Variable", xlab = "Value")
+
+\method{visualize}{heatmap}(data, colours = c("darkorange2", "skyblue4"),
+  number.colours = 1, values = TRUE, values.size = 5, ylab = "",
+  xlab = "", legend.title = expression("Correlation" * ~rho))
+
+\method{visualize}{interaction}(data, groups = "~Yterms", ylab = "Exposure")
 }
 \arguments{
 \item{data}{Input data frame, sent from the \code{\link{trance}} command}
@@ -26,11 +39,121 @@ vertically.}
 \item{xlab}{X-axis label}
 
 \item{center.line}{Where the dotted line is set}
+
+\item{box_groups}{Grouping by boxplot}
+
+\item{dots}{Whether or not to include the dots on the chart}
+
+\item{colours}{The spectrum of colours for the heatmap, as a vector between
+the lowest (negative) value and the highest (positive) value}
+
+\item{number.colours}{Number of colour spectrums to use.}
+
+\item{values}{Whether or not the values are put on the plot.}
+
+\item{values.size}{Font size of the values.}
+
+\item{legend.title}{Title of the legend.}
+
+\item{ylab}{Y-axis label}
+
+\item{xlab}{X-axis label}
+
+\item{groups}{Grouping by faceting}
+
+\item{ylab}{Y-axis label.}
+
+\item{xlab}{X-axis label.}
+
+\item{data}{Dataset from a regression with the p-values}
+
+\item{groups}{The column that splits the tests up, usually is the
+dependent variable if the data has been looped through a
+regression test (eg. see \code{\link[mason]{build}}).}
+
+\item{ylab}{The label for the y-axis.}
 }
 \value{
 Create a high level graphic.
+
+Creates a heatmap plot
 }
 \description{
 After entering a trance, visualize the results of the analysis.
+
+For 'main_effect', useful for presenting beta-coefficient results from
+regression type analyses (eg. linear or logistic regression, GEE, mixed
+effect, etc).
+
+For 'boxes_dots', useful for presenting multiple variables with a similar
+scale or unit.
+
+For 'heatmap', can create a matrix or non-matrix style. Useful when
+presenting correlation coefficients.
+
+See the example for a better idea of how to use the function.
+This style of plot is really useful to use when you have run many
+eg. interaction testing in a regression analysis and you want to
+see which variables are barely significant vs very significant,
+etc.  Thus, multiple comparison problems can be dealt with as the
+plot shows how significant a variable is compared to the rest of
+the significance tests.  This is generally the same reason why
+GWAS studies use Manhattan plots.
+}
+\examples{
+
+ds <- data.frame(state.region, state.x77) \%>\% tbl_df()
+ds \%>\%
+    select(state.region, Illiteracy, Life.Exp, Murder, HS.Grad) \%>\%
+    mutate(HS.Grad = as.numeric(HS.Grad < 50)) \%>\%
+    trance('continuous_distrib') \%>\%
+    visualize(box_groups = 'HS.Grad', groups = '~state.region')
+ds \%>\%
+    select(state.region, Illiteracy, Life.Exp, Murder, HS.Grad) \%>\%
+    trance('continuous_distrib') \%>\%
+    visualize(box_groups = 'state.region')
+ds \%>\%
+    select(state.region, Illiteracy, Life.Exp, Murder, HS.Grad) \%>\%
+    trance('continuous_distrib') \%>\%
+    visualize(groups = 'state.region ~ .')
+ds \%>\%
+    select(Illiteracy, Life.Exp, Murder, HS.Grad) \%>\%
+    trance('continuous_distrib') \%>\%
+    visualize(dots = FALSE)
+
+## Correlation heatmap
+ds <- data.frame(state.region, state.x77) \%>\% tbl_df()
+design(ds, 'cor') \%>\%
+    lay_base() \%>\%
+    build() \%>\%
+    polish() \%>\%
+    trance('heatmap') \%>\%
+    visualize() \%>\%
+    vision_simple(legend.position = 'right')
+design(ds, 'cor') \%>\%
+    lay_base(c('Income', 'Population'), c('Murder', 'Illiteracy')) \%>\%
+    build() \%>\%
+    polish() \%>\%
+    trance('heatmap') \%>\%
+    visualize() \%>\%
+    vision_simple(legend.position = 'right')
+
+
+\dontrun{
+## Interaction, GEE
+library(mason) ## install_github('lwjohnst86/mason')
+ds <- data.frame(state.region, state.x77) \%>\% tbl_df()
+gee.df <- design(ds, 'gee') \%>\%
+    lay_base('state.region', c('Income', 'Frost'),
+             c('Population', 'Murder'), 'Life.Exp',
+             intvar = 'Life.Exp') \%>\%
+    build() \%>\%
+    polish(':', TRUE)
+gee.df \%>\% trance('interaction') \%>\% visualize()
+gee.df \%>\% trance('interaction') \%>\% visualize(groups = 'Yterms~.')
+gee.df \%>\% trance('interaction') \%>\% visualize() \%>\% vision_simple()
+gee.df \%>\% trance('interaction') \%>\% visualize() \%>\% vision_sparse()
+}
+
 }
 

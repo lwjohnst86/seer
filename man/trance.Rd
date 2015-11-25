@@ -4,12 +4,12 @@
 \alias{trance}
 \title{Enter a trance.}
 \usage{
-trance(data, type = c("main_reg", "interaction", "cor_df"))
+trance(data, type = c("main_effect", "interaction", "heatmap", "boxes_dots"))
 }
 \arguments{
 \item{data}{Input data set to create graphs from}
 
-\item{type}{'Trance' (visualization) type (eg. 'main_reg' for main effect results
+\item{type}{'Trance' (visualization) type (eg. 'main_effect' for main effect results
 for regression)}
 }
 \value{
