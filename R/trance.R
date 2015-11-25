@@ -3,7 +3,7 @@
 #' Start the visualization process by indicating the type of trance to enter,
 #' ie. which type of visualization you would like.
 #' @param data Input data set to create graphs from
-#' @param type 'Trance' (visualization) type (eg. 'main_reg' for main effect results
+#' @param type 'Trance' (visualization) type (eg. 'main_effect' for main effect results
 #'   for regression)
 #'
 #' @return Output the input dataframe with a new class added, to be used by
@@ -11,7 +11,8 @@
 #'
 #' @export
 trance <- function(data,
-                   type = c('main_reg', 'interaction', 'cor_df')) {
+                   type = c('main_effect', 'interaction', 'heatmap',
+                            'boxes_dots')) {
     class(data) <- c(match.arg(type), class(data))
     return(data)
 }

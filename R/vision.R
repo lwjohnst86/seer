@@ -31,7 +31,9 @@ vision_sparse <-
 #' @rdname vision
 #' @export
 vision_simple <-
-    function(base_plot, base_size = 12, base_family = "Helvetica") {
+    function(base_plot, base_size = 12, base_family = "Helvetica",
+             legend_position = c('right', 'left', 'bottom', 'top')) {
+        legend_position <- match.arg(legend_position)
         base_plot %>%
             magrittr::add(ggplot2::"%+replace%"(
                 ggthemes::theme_tufte(base_size = base_size, base_family = base_family),
@@ -40,7 +42,7 @@ vision_simple <-
                     legend.key.height = grid::unit(0.7, "line"),
                     strip.background = ggplot2::element_rect(fill = 'grey95', colour = 'grey95'),
                     plot.margin = grid::unit(c(0.5, 0, 0, 0), "cm"),
-                    legend.position = 'bottom'
+                    legend.position = legend_position
                 )
             ))
     }
