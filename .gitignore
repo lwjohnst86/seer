@@ -1,4 +1,7 @@
 .Rproj.user
 .Rhistory
 .RData
-dev/
+inst/doc
+vignette/*.html
+vignette/*.R
+
