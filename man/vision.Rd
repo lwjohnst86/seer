@@ -6,10 +6,10 @@
 \alias{vision_sparse}
 \title{Vision experience (aka plot theme).}
 \usage{
-vision_sparse(base_plot, base_size = 12, base_family = "Helvetica")
+vision_sparse(base.plot, base.size = 12, base.family = "Arial")
 
-vision_simple(base_plot, base_size = 12, base_family = "Helvetica",
-  legend_position = c("right", "left", "bottom", "top"))
+vision_simple(base.plot, base.size = 12, base.family = "Arial",
+  legend.position = c("right", "left", "bottom", "top", "none"))
 }
 \arguments{
 \item{base_plot}{The base_plot sent from the \code{\link{visualize}} chain}

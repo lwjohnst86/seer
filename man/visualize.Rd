@@ -5,6 +5,7 @@
 \alias{visualize.boxes_dots}
 \alias{visualize.heatmap}
 \alias{visualize.interaction}
+\alias{visualize.lda}
 \alias{visualize.main_effect}
 \title{Visualize the results.}
 \usage{
@@ -22,6 +23,10 @@ visualize(data, ...)
   xlab = "", legend.title = expression("Correlation" * ~rho))
 
 \method{visualize}{interaction}(data, groups = "~Yterms", ylab = "Exposure")
+
+\method{visualize}{lda}(data, type = c("default", "means", "scaling"),
+  orig.data = NULL, group.name = NULL, label.rename.fun = function(x) x,
+  ordering.fun = function(x) x)
 }
 \arguments{
 \item{data}{Input data frame, sent from the \code{\link{trance}} command}
