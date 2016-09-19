@@ -27,3 +27,5 @@ Suggests:
     pls,
     caret
 VignetteBuilder: knitr
+URL: https://github.com/lwjohnst86/seer
+BugReports: https://github.com/lwjohnst86/seer/issues
