@@ -1,4 +1,7 @@
-# seer
+
+seer
+====
+
 Visualize your data
 
-Fix visualize when there is all significance.
+<!-- README.md is generated from README.Rmd. Please edit that file -->
