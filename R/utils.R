@@ -1,7 +1,7 @@
 .plot_groups <- function(p, groups = NULL, label.switch = 'both') {
     if (!is.null(groups))
         p <- p + ggplot2::facet_grid(as.formula(groups), scale = 'free_y',
-                                     switch = label.switch)
+                                     switch = label.switch, space = 'free')
     return(p)
 }
 
