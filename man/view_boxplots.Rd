@@ -6,8 +6,8 @@
 scale or unit.}
 \usage{
 view_boxplots(data, variables, values, box.groups = NULL, groups = NULL,
-  dots = TRUE, ylab = "Variables", xlab = "Value",
-  group.label.pos = "both")
+  dots = TRUE, dot.colour = "grey50", ylab = "Variables",
+  xlab = "Value", group.label.pos = "both")
 }
 \arguments{
 \item{box.groups}{Grouping by boxplot}

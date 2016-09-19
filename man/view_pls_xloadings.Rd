@@ -4,21 +4,22 @@
 \alias{view_pls_xloadings}
 \title{Plot the x loadings by components for PLS models.}
 \usage{
-view_pls_xloadings(pls.model, comps = 1:2, renaming.x = function(x) x,
+view_pls_xloadings(model, comps = 1:2, renaming.x = function(x) x,
   title = NULL)
 }
 \arguments{
-\item{pls.model}{The PLS model generated from \code{\link[pls]{plsr}}.}
-
 \item{comps}{The component numbers, e.g. for the first 2 it would be '1:2',
 for the first and third, 'c(1,3)', and so on.}
 
 \item{renaming.x}{A function to renaming the x variables for the PLS model.}
 
-\item{title}{}
+\item{title}{The main title of the plot.}
+
+\item{pls.model}{The PLS model generated from \code{\link[pls]{plsr}}.}
 }
 \value{
-Prints the loadings of the x in PLS by two components, with circles indicating
+Prints the loadings of the X in PLS by two components, with
+ circles indicating 50% (dashed) and 100% (solid) explained variance.
 }
 \description{
 Plot the x loadings by components for PLS models.
