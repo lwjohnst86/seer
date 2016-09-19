@@ -33,6 +33,7 @@ view_boxplots <-
              box.groups = NULL,
              groups = NULL,
              dots = TRUE,
+             dot.colour = 'grey50',
              ylab = 'Variables',
              xlab = 'Value',
              group.label.pos = 'both') {
@@ -44,7 +45,7 @@ view_boxplots <-
         }
 
         if (dots)
-            p <- p + geom_jitter()
+            p <- p + geom_jitter(colour = dot.colour)
 
         p <- p +
             geom_boxplot(outlier.shape = NA) +
