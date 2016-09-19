@@ -4,9 +4,10 @@
 #' @param comps The component numbers, e.g. for the first 2 it would be '1:2',
 #'   for the first and third, 'c(1,3)', and so on.
 #' @param renaming.x A function to renaming the x variables for the PLS model.
-#' @param title
+#' @param title The main title of the plot.
 #'
-#' @return Prints the loadings of the x in PLS by two components, with circles indicating
+#' @return Prints the loadings of the X in PLS by two components, with
+#'  circles indicating 50% (dashed) and 100% (solid) explained variance.
 #' @export
 #'
 #' @examples
@@ -24,14 +25,13 @@
 #' view_pls_xloadings(fit, title = 'Near-infrared radiation',
 #'  renaming.x = function(x) gsub('NIR', 'Wave ', x))
 #' }
-view_pls_xloadings <- function(pls.model, comps = 1:2, renaming.x = function(x) x, title = NULL) {
-    .is_class(pls.model, 'mvr')
-    fit <- pls.model
+view_pls_xloadings <- function(model, comps = 1:2, renaming.x = function(x) x, title = NULL) {
+    .is_class(model, 'mvr')
     xloadings <-
-        cor(model.matrix(fit), pls::scores(fit)[, comps, drop = FALSE]) %>%
+        cor(model.matrix(model), pls::scores(model)[, comps, drop = FALSE]) %>%
         as.data.frame() %>%
-        dplyr::add_rownames() %>%
-        setNames(c('pred', 'x', 'y')) %>%
+        tibble::rownames_to_column() %>%
+        stats::setNames(c('pred', 'x', 'y')) %>%
         dplyr::mutate(pred = renaming.x(pred))
 
     circle_outer <- .circle_data(1)
@@ -46,8 +46,8 @@ view_pls_xloadings <- function(pls.model, comps = 1:2, renaming.x = function(x) 
         geom_point() +
         geom_text(aes(label = pred), hjust = 0.5, vjust = 0, size = 4) +
         labs(
-            x = paste0('Component 1 (', round(pls::explvar(fit)[1], 1), '%)'),
-            y = paste0('Component 2 (', round(pls::explvar(fit)[2], 1), '%)'),
+            x = paste0('Component 1 (', round(pls::explvar(model)[1], 1), '%)'),
+            y = paste0('Component 2 (', round(pls::explvar(model)[2], 1), '%)'),
             title = title
         )
 }
