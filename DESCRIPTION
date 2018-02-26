@@ -18,14 +18,16 @@ Imports:
     tidyr,
     assertive,
     tibble,
-    stats
-RoxygenNote: 5.0.1
+    stats,
+    grDevices
+RoxygenNote: 6.0.1
 Suggests:
     MASS,
     knitr,
     rmarkdown,
     pls,
-    caret
+    caret,
+    testthat
 VignetteBuilder: knitr
 URL: https://github.com/lwjohnst86/seer
 BugReports: https://github.com/lwjohnst86/seer/issues
