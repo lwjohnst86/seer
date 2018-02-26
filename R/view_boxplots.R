@@ -21,7 +21,7 @@
 #'     group_by(Measure) %>%
 #'     mutate(Value = scale(Value))
 #'
-#' view_boxplots(ds2, 'Measure', 'Value', dots = FALSE, groups = '~HS.Grad')
+#' view_boxplots(ds2, 'Measure', 'Value', dots = FALSE, facet_groups = '~HS.Grad')
 #' view_boxplots(ds2, 'Measure', 'Value', dots = FALSE, groups = '~HS.Grad',
 #'  group.label.pos = NULL)
 #' view_boxplots(ds2, 'Measure', 'Value', dots = FALSE, groups = 'HS.Grad~.')
@@ -30,31 +30,27 @@
 #'
 view_boxplots <-
     function(data, variables, values,
-             box.groups = NULL,
-             groups = NULL,
+             box_group = NULL,
+             facet_groups = NULL,
              dots = TRUE,
-             dot.colour = 'grey50',
-             ylab = 'Variables',
-             xlab = 'Value',
+             dot_colour = 'grey50',
              group.label.pos = 'both') {
 
-        if (!is.null(box.groups) & is.null(groups)) {
-            p <- ggplot(data = data, aes_string(x = variables, y = values, fill = box.groups))
+        if (!is.null(box_group) & is.null(facet_groups)) {
+            p <- ggplot2::ggplot(data = data, aes_string(x = variables, y = values, fill = box_group))
         } else {
             p <- ggplot(data = data, aes_string(x = variables, y = values))
         }
 
         if (dots)
-            p <- p + geom_jitter(colour = dot.colour)
+            p <- p + geom_jitter(colour = dot_colour)
 
         p <- p +
             geom_boxplot(outlier.shape = NA) +
-            coord_flip() +
             ## Axis labels are reversed because of flip
-            ylab(xlab) +
-            xlab(ylab)
+            coord_flip()
 
-        p <- .plot_groups(p, groups, label.switch = group.label.pos)
+        p <- facet_groups_fun(p, facet_groups = facet_groups, facet_switch = group.label.pos)
 
         return(p)
     }

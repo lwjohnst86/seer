@@ -34,8 +34,8 @@ view_heatmap <-
         .is_df(data)
 
         ## Color Palette for the heatmap
-        ltom <- colorRampPalette(c(colours[1], "white"))
-        mtoh <- colorRampPalette(c("white", colours[2]))
+        ltom <- grDevices::colorRampPalette(c(colours[1], "white"))
+        mtoh <- grDevices::colorRampPalette(c("white", colours[2]))
 
         ## Main plot
         p <- ggplot2::ggplot(data, ggplot2::aes_string(x, y)) +
@@ -59,3 +59,22 @@ view_heatmap <-
 
         return(p)
 }
+
+heatmap <- function(data, y, x, values, settings = list()) {
+
+}
+
+vision_opts <- list()
+
+heatmap_settings <- list(
+    # colour = list(
+    #     low =
+    # )
+    low_colour = 'skyblue4',
+    high_colour = 'darkorange2',
+    number.colours = 2,
+    text = TRUE,
+    text_size = 5, ylab = '', xlab = '',
+             legend.title = expression("Correlation" * ~ rho)
+
+)

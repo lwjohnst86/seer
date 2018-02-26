@@ -25,7 +25,7 @@
 #' view_pls_xloadings(fit, title = 'Near-infrared radiation',
 #'  renaming.x = function(x) gsub('NIR', 'Wave ', x))
 #' }
-view_pls_xloadings <- function(model, comps = 1:2, renaming.x = function(x) x, title = NULL) {
+view_pls_xloadings <- function(model, comps = 1:2, renaming.x = function(x) x, title = NULL, dot.colour = "black") {
     .is_class(model, 'mvr')
     xloadings <-
         cor(model.matrix(model), pls::scores(model)[, comps, drop = FALSE]) %>%
@@ -43,7 +43,7 @@ view_pls_xloadings <- function(model, comps = 1:2, renaming.x = function(x) x, t
         geom_segment(aes(x = 0, y = -1, xend = 0, yend = 1), colour = 'grey90') +
         geom_path(data = circle_outer, aes(x = x, y = y)) +
         geom_path(data = circle_inner, aes(x = x, y = y), linetype = 'dotted') +
-        geom_point() +
+        geom_point(colour = dot.colour) +
         geom_text(aes(label = pred), hjust = 0.5, vjust = 0, size = 4) +
         labs(
             x = paste0('Component 1 (', round(pls::explvar(model)[1], 1), '%)'),

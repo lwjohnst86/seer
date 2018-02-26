@@ -10,6 +10,7 @@ view_main_effect <-
              center.line = TRUE,
              legend.title = 'P-value',
              dot.size.range = c(0.75, 4),
+             dot.colour = "black",
              grey.scale.range = c(0, 0.75),
              group.label.switch = c(NULL, 'both', 'x', 'y')) {
 
@@ -23,7 +24,7 @@ view_main_effect <-
     graph.options <- match.arg(graph.options)
     switch(graph.options,
            default = {
-               p <- .graph_main_effect_default(data)
+               p <- .graph_main_effect_default(data, dot.colour = dot.colour)
            },
            dot.size = {
                data <- .convert_pvalue_to_discrete(data)
@@ -64,7 +65,7 @@ view_main_effect <-
     p <- p + ggplot2::labs(x = xlab, y = ylab)
 
     # Split the plot up by a group variable.
-    p <- .plot_groups(p, groups, label.switch = label.switch)
+    p <- facet_groups_fun(p, facet_groups = groups, facet_switch = label.switch)
 
     return(p)
 }
@@ -86,22 +87,22 @@ view_main_effect <-
             )
 }
 
-.graph_main_effect_default <- function(data) {
+.graph_main_effect_default <- function(data, dot.colour = "black") {
     data %>%
         ggplot2::ggplot(ggplot2::aes(x = estimate, y = Xterms)) +
         ggplot2::geom_errorbarh(ggplot2::aes(xmin = conf.low,
                                              xmax = conf.high),
-                                height = 0) +
-        ggplot2::geom_point()
+                                height = 0, colour = dot.colour) +
+        ggplot2::geom_point(colour = dot.colour)
 }
 
-.graph_main_effect_dot.size <- function(data, legend.title, dot.size.range) {
+.graph_main_effect_dot.size <- function(data, legend.title, dot.size.range, dot.colour = "black") {
     data %>%
         ggplot2::ggplot(ggplot2::aes(x = estimate, y = Xterms)) +
         ggplot2::geom_errorbarh(ggplot2::aes(xmin = conf.low,
                                              xmax = conf.high),
-                                height = 0) +
-        ggplot2::geom_point(ggplot2::aes(size = p.value)) +
+                                height = 0, colour = dot.colour) +
+        ggplot2::geom_point(ggplot2::aes(size = p.value), colour = dot.colour) +
         ggplot2::scale_size_discrete(name = legend.title,
                                      range = dot.size.range)
 }

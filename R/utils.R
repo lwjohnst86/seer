@@ -1,8 +1,10 @@
-.plot_groups <- function(p, groups = NULL, label.switch = 'both') {
-    if (!is.null(groups))
-        p <- p + ggplot2::facet_grid(as.formula(groups), scale = 'free_y',
-                                     switch = label.switch, space = 'free')
-    return(p)
+library(ggplot2)
+facet_groups_fun <- function(plot, facet_groups = NULL, facet_switch = 'both', facet_scales = 'free',
+                         facet_space = 'free') {
+    if (!is.null(facet_groups))
+        plot <- plot + ggplot2::facet_grid(as.formula(facet_groups), scales = facet_scales,
+                                     switch = facet_switch, space = facet_space)
+    return(plot)
 }
 
 .is_logic <- function(x) {
